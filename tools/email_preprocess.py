@@ -19,7 +19,7 @@ def preprocess(words_file = "../tools/word_data.pkl", authors_file="../tools/ema
             -- vectorizes into tfidf matrix
             -- selects/keeps most helpful features
 
-        after this, the feaures and labels are put into numpy arrays, which play nice with sklearn functions
+        after this, the features and labels are put into numpy arrays, which play nice with sklearn functions
 
         4 objects are returned:
             -- training/testing features
@@ -47,16 +47,19 @@ def preprocess(words_file = "../tools/word_data.pkl", authors_file="../tools/ema
     vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5,
                                  stop_words='english')
     features_train_transformed = vectorizer.fit_transform(features_train)
-    features_test_transformed  = vectorizer.transform(features_test)
+    features_test_transformed = vectorizer.transform(features_test)
 
 
 
     ### feature selection, because text is super high dimensional and 
     ### can be really computationally chewy as a result
-    selector = SelectPercentile(f_classif, percentile=10)
+    selector = SelectPercentile(f_classif, percentile=10) # select only best 10% of features
+
+    ### change percentile = 1 to use 1% of feature for Quiz 38 in Decision Tree Lecture
+    # selector = SelectPercentile(f_classif, percentile=1)
     selector.fit(features_train_transformed, labels_train)
     features_train_transformed = selector.transform(features_train_transformed).toarray()
-    features_test_transformed  = selector.transform(features_test_transformed).toarray()
+    features_test_transformed = selector.transform(features_test_transformed).toarray()
 
     ### info on the data
     print "no. of Chris training emails:", sum(labels_train)

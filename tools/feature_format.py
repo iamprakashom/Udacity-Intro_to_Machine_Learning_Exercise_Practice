@@ -30,10 +30,10 @@
     that poi is listed first!
 """
 
-
 import numpy as np
 
-def featureFormat( dictionary, features, remove_NaN=True, remove_all_zeroes=True, remove_any_zeroes=False, sort_keys = False):
+
+def featureFormat(dictionary, features, remove_NaN=True, remove_all_zeroes=True, remove_any_zeroes=False, sort_keys=False):
     """ convert dictionary to numpy array of features
         remove_NaN = True will convert "NaN" string to 0.0
         remove_all_zeroes = True will omit any data points for which
@@ -47,7 +47,6 @@ def featureFormat( dictionary, features, remove_NaN=True, remove_all_zeroes=True
         NOTE: first feature is assumed to be 'poi' and is not checked for
             removal for zero or missing values.
     """
-
 
     return_list = []
 
@@ -70,9 +69,9 @@ def featureFormat( dictionary, features, remove_NaN=True, remove_all_zeroes=True
                 print "error: key ", feature, " not present"
                 return
             value = dictionary[key][feature]
-            if value=="NaN" and remove_NaN:
+            if value == "NaN" and remove_NaN:
                 value = 0
-            tmp_list.append( float(value) )
+            tmp_list.append(float(value))
 
         # Logic for deciding whether or not to add the data point.
         append = True
@@ -97,12 +96,12 @@ def featureFormat( dictionary, features, remove_NaN=True, remove_all_zeroes=True
                 append = False
         ### Append the data point if flagged for addition.
         if append:
-            return_list.append( np.array(tmp_list) )
+            return_list.append(np.array(tmp_list))
 
     return np.array(return_list)
 
 
-def targetFeatureSplit( data ):
+def targetFeatureSplit(data):
     """ 
         given a numpy array like the one returned from
         featureFormat, separate out the first feature
@@ -118,8 +117,8 @@ def targetFeatureSplit( data ):
     target = []
     features = []
     for item in data:
-        target.append( item[0] )
-        features.append( item[1:] )
+        target.append(item[0])
+        features.append(item[1:])
 
     return target, features
 
